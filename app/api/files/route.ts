@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         console.error(error);
 
         return NextResponse.json(
-            { error: "Error al subir archivo" },
+            { error: String(error) },
             { status: 500 }
         );
     }
@@ -75,7 +75,7 @@ export async function GET() {
         console.error(error);
 
         return NextResponse.json(
-            { error: "Error obteniendo archivos" },
+            { error: String(error) },
             { status: 500 }
         );
     }
