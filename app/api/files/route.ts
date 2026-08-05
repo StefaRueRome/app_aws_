@@ -49,7 +49,12 @@ export async function POST(request: NextRequest) {
 export async function GET() {
     try {
 
-        console.log("BUCKET_NAME =", process.env.BUCKET_NAME);
+        console.log({
+            BUCKET_NAME: process.env.BUCKET_NAME,
+            REGION: process.env.REGION,
+            ACCESS_KEY_ID: process.env.ACCESS_KEY_ID ? "OK" : "NO",
+            SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY ? "OK" : "NO",
+          });
 
         const command = new ListObjectsV2Command({
             Bucket: process.env.BUCKET_NAME!,
