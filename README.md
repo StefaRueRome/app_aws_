@@ -8,7 +8,7 @@ Permite subir, listar, buscar, descargar, visualizar y eliminar archivos almacen
 
 **Aplicación desplegada en AWS Amplify:**
 
-> https://TU-URL-DE-AMPLIFY.amplifyapp.com
+> https://main.d3t5wu73qk0n87.amplifyapp.com
 
 ---
 
