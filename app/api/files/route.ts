@@ -6,10 +6,11 @@ import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 
-import { s3 } from "@/lib/s3";
+import { getS3Client } from "@/lib/s3";
 
 export async function POST(request: NextRequest) {
     try {
+        const s3 = getS3Client();
         const data = await request.formData();
 
         const file = data.get("file") as File;
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     try {
-
+        const s3 = getS3Client();
         console.log({
             BUCKET_NAME: process.env.BUCKET_NAME,
             REGION: process.env.REGION,
@@ -82,6 +83,7 @@ export async function GET() {
 
 export async function DELETE(request: Request) {
     try {
+        const s3 = getS3Client();
         const { searchParams } = new URL(request.url);
 
         const key = searchParams.get("key");
