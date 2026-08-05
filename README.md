@@ -14,8 +14,6 @@ Permite subir, listar, buscar, descargar, visualizar y eliminar archivos almacen
 
 ## 📸 Capturas
 
-Agrega aquí algunas imágenes del proyecto.
-
 ### Página principal
 
 ![Home](screenshots/home.png)
