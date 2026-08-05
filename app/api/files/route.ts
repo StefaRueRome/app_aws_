@@ -9,99 +9,102 @@ import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { s3 } from "@/lib/s3";
 
 export async function POST(request: NextRequest) {
-  try {
-    const data = await request.formData();
+    try {
+        const data = await request.formData();
 
-    const file = data.get("file") as File;
+        const file = data.get("file") as File;
 
-    if (!file) {
-      return NextResponse.json(
-        { error: "No se recibió ningún archivo" },
-        { status: 400 }
-      );
+        if (!file) {
+            return NextResponse.json(
+                { error: "No se recibió ningún archivo" },
+                { status: 400 }
+            );
+        }
+
+        const buffer = Buffer.from(await file.arrayBuffer());
+
+        const command = new PutObjectCommand({
+            Bucket: process.env.BUCKET_NAME!,
+            Key: file.name,
+            Body: buffer,
+            ContentType: file.type,
+        });
+
+        await s3.send(command);
+
+        return NextResponse.json({
+            success: true,
+            message: "Archivo subido correctamente",
+        });
+    } catch (error) {
+        console.error(error);
+
+        return NextResponse.json(
+            { error: "Error al subir archivo" },
+            { status: 500 }
+        );
     }
-
-    const buffer = Buffer.from(await file.arrayBuffer());
-
-    const command = new PutObjectCommand({
-      Bucket: process.env.BUCKET_NAME!,
-      Key: file.name,
-      Body: buffer,
-      ContentType: file.type,
-    });
-
-    await s3.send(command);
-
-    return NextResponse.json({
-      success: true,
-      message: "Archivo subido correctamente",
-    });
-  } catch (error) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: "Error al subir archivo" },
-      { status: 500 }
-    );
-  }
 }
 
 export async function GET() {
     try {
-      const command = new ListObjectsV2Command({
-        Bucket: process.env.BUCKET_NAME!,
-      });
-  
-      const response = await s3.send(command);
-  
-      const files =
-        response.Contents?.map((file) => ({
-          name: file.Key,
-          size: file.Size,
-          lastModified: file.LastModified,
-        })) || [];
-  
-      return NextResponse.json(files);
-    } catch (error) {
-      console.error(error);
-  
-      return NextResponse.json(
-        { error: "Error obteniendo archivos" },
-        { status: 500 }
-      );
-    }
-  }
 
-  export async function DELETE(request: Request) {
-    try {
-      const { searchParams } = new URL(request.url);
-  
-      const key = searchParams.get("key");
-  
-      if (!key) {
-        return NextResponse.json(
-          { error: "Nombre del archivo requerido" },
-          { status: 400 }
-        );
-      }
-  
-      const command = new DeleteObjectCommand({
-        Bucket: process.env.BUCKET_NAME!,
-        Key: key,
-      });
-  
-      await s3.send(command);
-  
-      return NextResponse.json({
-        success: true,
-        message: "Archivo eliminado correctamente",
-      });
+        console.log("BUCKET_NAME =", process.env.BUCKET_NAME);
+
+        const command = new ListObjectsV2Command({
+            Bucket: process.env.BUCKET_NAME!,
+        });
+
+        const response = await s3.send(command);
+
+        const files =
+            response.Contents?.map((file) => ({
+                name: file.Key,
+                size: file.Size,
+                lastModified: file.LastModified,
+            })) || [];
+
+        return NextResponse.json(files);
     } catch (error) {
-      console.error(error);
-  
-      return NextResponse.json(
-        { error: "Error eliminando archivo" },
-        { status: 500 }
-      );
+        console.error(error);
+
+        return NextResponse.json(
+            { error: "Error obteniendo archivos" },
+            { status: 500 }
+        );
     }
-  }
+}
+
+export async function DELETE(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+
+        const key = searchParams.get("key");
+
+        if (!key) {
+            return NextResponse.json(
+                { error: "Nombre del archivo requerido" },
+                { status: 400 }
+            );
+        }
+
+        const command = new DeleteObjectCommand({
+            Bucket: process.env.BUCKET_NAME!,
+            Key: key,
+        });
+
+        await s3.send(command);
+
+        return NextResponse.json({
+            success: true,
+            message: "Archivo eliminado correctamente",
+        });
+    } catch (error) {
+        console.error(error);
+
+        return NextResponse.json(
+            { error: "Error eliminando archivo" },
+            { status: 500 }
+        );
+    }
+}
