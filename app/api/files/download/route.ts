@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
 
     const command = new GetObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME!,
+        Bucket: process.env.BUCKET_NAME!,
         Key: key,
         ResponseContentDisposition: "attachment",
       });

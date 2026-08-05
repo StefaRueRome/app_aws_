@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: process.env.BUCKET_NAME!,
       Key: file.name,
       Body: buffer,
       ContentType: file.type,
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
     try {
       const command = new ListObjectsV2Command({
-        Bucket: process.env.AWS_BUCKET_NAME!,
+        Bucket: process.env.BUCKET_NAME!,
       });
   
       const response = await s3.send(command);
@@ -86,7 +86,7 @@ export async function GET() {
       }
   
       const command = new DeleteObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME!,
+        Bucket: process.env.BUCKET_NAME!,
         Key: key,
       });
   
