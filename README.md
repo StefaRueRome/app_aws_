@@ -143,7 +143,7 @@ AWS_BUCKET_NAME=nombre-del-bucket
 Clonar el repositorio:
 
 ```bash
-git clone https://github.com/TU_USUARIO/app_aws_.git
+git clone https://github.com/StefaRueRome/app_aws_.git
 ```
 
 Instalar dependencias:
