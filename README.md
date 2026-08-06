@@ -57,18 +57,29 @@ Permite subir, listar, buscar, descargar, visualizar y eliminar archivos almacen
 
 ---
 
-## 🛠️ Tecnologías
+## 🛠️ Tecnologías utilizadas
 
-- Next.js
-- React
+### Frontend
+
+- Next.js 15
+- React 19
 - TypeScript
 - Tailwind CSS
-- Amazon S3
-- AWS SDK v3
-- AWS IAM
-- AWS Amplify
-- Sonner
 - Lucide React
+- Sonner
+
+### Servicios AWS
+
+- Amazon S3
+- AWS IAM
+- AWS Amplify Hosting
+- Amazon Elastic Container Registry (ECR)
+
+### DevOps
+
+- Docker
+- Docker Multi-stage Build
+- Next.js Standalone Output
 
 ---
 
@@ -178,36 +189,48 @@ http://localhost:3000
 
 ---
 
-## ☁️ Despliegue
+# ☁️ Despliegue
 
-La aplicación está desplegada utilizando **AWS Amplify**.
+## AWS Amplify
 
-Cada vez que se realiza un `git push` a la rama principal, Amplify ejecuta automáticamente el proceso de compilación y despliegue.
+La aplicación se encuentra desplegada mediante **AWS Amplify Hosting**, el cual realiza el proceso de integración y despliegue continuo (CI/CD) a partir del repositorio de GitHub.
 
----
+Proceso de despliegue:
 
-## 📚 Conocimientos aplicados
-
-Este proyecto demuestra conocimientos en:
-
-- Desarrollo con Next.js y React
-- TypeScript
-- Consumo y creación de APIs REST
-- Integración con Amazon S3
-- AWS SDK v3
-- AWS IAM
-- AWS Amplify
-- Componentización
-- Hooks personalizados
-- Manejo de estado
-- Tailwind CSS
-- Arquitectura modular
+1. Se realiza un push al repositorio.
+2. AWS Amplify detecta los cambios.
+3. Compila automáticamente la aplicación.
+4. Publica la nueva versión.
 
 ---
+
+## Amazon Elastic Container Registry (ECR)
+
+La aplicación fue contenerizada utilizando Docker y posteriormente publicada en un repositorio privado de Amazon ECR.
+
+Proceso realizado:
+
+- Creación de la imagen Docker.
+- Optimización mediante Multi-stage Build.
+- Configuración de Next.js Standalone.
+- Publicación de la imagen en Amazon ECR.
+
+## 📚 Aprendizajes
+
+Durante el desarrollo de este proyecto se implementaron conceptos relacionados con:
+
+- Desarrollo de aplicaciones con Next.js y TypeScript.
+- Gestión de archivos en Amazon S3.
+- Generación de URLs prefirmadas para descarga y visualización de archivos.
+- Administración de usuarios y permisos mediante AWS IAM.
+- Despliegue automático con AWS Amplify.
+- Contenerización de aplicaciones con Docker.
+- Optimización de imágenes Docker mediante Multi-stage Build.
+- Configuración de Next.js Standalone.
+- Publicación de imágenes Docker en Amazon Elastic Container Registry (ECR).
 
 ## 🔮 Mejoras futuras
 
-- Docker
 - Autenticación con Amazon Cognito
 - Gestión de carpetas
 - Compartir archivos mediante enlaces temporales
